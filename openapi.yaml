@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: API сервиса для тестового задания
+  version: 0.1.0
+tags:
+  - name: cats
+    description: Всё что касается котиков
+paths:
+  /cats/like/{uid}:
+    post:
+      tags:
+        - cats
+      summary: Добавление лайка
+      operationId: addLike
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Уникальный идентификатор картинки
+      requestBody:
+        description: URL котика
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - url
+              properties:
+                url:
+                  type: string
+                  description: URL котика
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - cats
+      summary: Удаление лайка
+      operationId: removeLike
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Уникальный идентификатор картинки
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Like not found
+  /cats/likes:
+    get:
+      tags:
+        - cats
+      summary: Список лайков
+      operationId: getAllLikes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cat'
