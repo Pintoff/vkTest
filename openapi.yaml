@@ -73,3 +73,52 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Cat'
+  /user:
+    post:
+      tags:
+        - users
+      summary: Добавление пользователя
+      operationId: newUser
+      requestBody:
+        description: Новый пользователь
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          headers:
+            X-Auth-Token:
+              description: Токен для последующей авторизации, например sha256(user_id + secret_salt)
+              example: 3525dcdddea774939652f7f11df6d7db10a9db35a5d758c64d600a00c1cc41be
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '405':
+          description: Invalid input
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Ожидается токен, выдаваемый при регистрации пользователя
+      bearerFormat: SHA256
+  schemas:
+    User:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          description: Логин пользователя
+        password:
+          type: string
+          description: Пароль пользователя
