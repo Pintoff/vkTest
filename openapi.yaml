@@ -101,6 +101,34 @@ paths:
                 $ref: '#/components/schemas/User'
         '405':
           description: Invalid input
+        '409':
+          description: User with this login already exists
+  /user/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      operationId: loginUser
+      requestBody:
+        description: Данные для входа
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Токен для последующей авторизации
+        '401':
+          description: Invalid login or password
 
 components:
   securitySchemes:
@@ -111,6 +139,18 @@ components:
       bearerFormat: SHA256
   schemas:
     User:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          description: Логин пользователя
+        password:
+          type: string
+          description: Пароль пользователя
+    LoginUser:
       type: object
       required:
         - login

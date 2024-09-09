@@ -18,7 +18,7 @@ const LikedCats: React.FC = () => {
       await handleUnlike(uid);
       setCats(prevCats => prevCats.filter(cat => cat.uid !== uid));
     } catch (error) {
-      console.error('Error unliking cat:', error);
+      console.error('Не получилось анлайкнуть котика:', error);
     }
   };
 
@@ -26,11 +26,15 @@ const LikedCats: React.FC = () => {
     // получение понравившихся котиков
     const fetchLikedCats = async () => {
       try {
-        const responseBack = await axios.get(`http://127.0.0.1:8080/api/cats/likes`);
+        const responseBack = await axios.get(`http://127.0.0.1:8080/api/cats/likes`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         const responseData:Array<Cat> = responseBack.data;
         setCats(responseData);
       } catch (error) {
-        console.error('Error fetching liked cats:', error);
+        console.error('Не получилось получить понравившихся котиков:', error);
       }
     };
 

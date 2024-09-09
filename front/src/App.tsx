@@ -1,27 +1,40 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Header from './components/UI/Header';
 import Main from './components/Main';
 import LikedCats from './components/LikedCats';
 import './index.css';
+import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 
 export const router = createBrowserRouter([
     {
-        path: '/',
-        element: (
-            <div>
-                <Header />
-                <Main/>
-            </div>
-        ),
+      path: '/login',
+      element: <Login />,
     },
     {
-        path: '/cats/liked',
-        element: (
-            <div>
-                <Header />
-                <LikedCats />
-            </div>
-        ),
+      path: '/',
+      element: (
+        <PrivateRoute>
+          <div>
+            <Header />
+            <Main />
+          </div>
+        </PrivateRoute>
+      ),
     },
-]);
-
+    {
+      path: '/cats/liked',
+      element: (
+        <PrivateRoute>
+          <div>
+            <Header />
+            <LikedCats />
+          </div>
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: '*',
+      element: <Navigate to="/login" />,
+    },
+  ]);  

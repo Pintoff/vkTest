@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import * as jwt from 'jsonwebtoken';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -34,5 +35,11 @@ export class UserController {
       }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() loginUserDto: LoginUserDto): Promise<{ token: string }> {
+    return this.userService.login(loginUserDto);
   }
 }

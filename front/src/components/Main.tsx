@@ -33,10 +33,14 @@ const Main: React.FC = () => {
   useEffect(() => {
     const fetchLikedImages = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8080/api/cats/likes`);
+        const response = await axios.get(`http://127.0.0.1:8080/api/cats/likes`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         setLikedImages(response.data);
       } catch (error) {
-        console.error('Error fetching liked images:', error);
+        console.error('Не получилось получить залайканные картинки с нашего апи:', error);
       }
     };
 
@@ -47,7 +51,7 @@ const Main: React.FC = () => {
         );
         setCatImages((prevImages) => [...prevImages, ...response.data]);
       } catch (error) {
-        console.error('Error fetching cat images:', error);
+        console.error('Не получилось получить картинки с апи кошек:', error);
       }
     };
 
@@ -60,7 +64,7 @@ const Main: React.FC = () => {
       await handleLike(imageId, url);
       setLikedImages((prevLikedImages) => [...prevLikedImages, imageId]);
     } catch (error) {
-      console.error('Error liking image:', error);
+      console.error('Не получилось поставить лайк:', error);
     }
   };
 
@@ -69,7 +73,7 @@ const Main: React.FC = () => {
       await handleUnlike(imageId);
       setLikedImages((prevLikedImages) => prevLikedImages.filter((id) => id !== imageId));
     } catch (error) {
-      console.error('Error unliking image:', error);
+      console.error('Не получилось убрать лайк:', error);
     }
   };
 
