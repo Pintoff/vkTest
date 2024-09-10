@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Cat {
@@ -8,4 +15,7 @@ export class Cat {
   uid: string;
   @Column()
   url: string;
+  @ManyToOne(() => User, (user) => user.cats, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

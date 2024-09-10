@@ -33,7 +33,7 @@ const Main: React.FC = () => {
   useEffect(() => {
     const fetchLikedImages = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8080/api/cats/likes`, {
+        const response = await axios.get(`http://127.0.0.1:8080/api/likes`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

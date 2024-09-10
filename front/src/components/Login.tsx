@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8080/api/user/login', {
+      const response = await axios.post('http://127.0.0.1:8080/api/login', {
         login,
         password,
       });

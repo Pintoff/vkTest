@@ -26,7 +26,7 @@ const LikedCats: React.FC = () => {
     // получение понравившихся котиков
     const fetchLikedCats = async () => {
       try {
-        const responseBack = await axios.get(`http://127.0.0.1:8080/api/cats/likes`, {
+        const responseBack = await axios.get(`http://127.0.0.1:8080/api/likes`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

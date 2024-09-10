@@ -1,27 +1,46 @@
-import { Controller, Post, Delete, Get, Param, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Delete,
+  Get,
+  Param,
+  Body,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { Cat } from '../entities/cat.entity';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('cats')
+@Controller('')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
-  @Post('like/:uid')
+
+  @Post('likes/:uid')
   @UseGuards(AuthGuard('jwt'))
   async addLike(
     @Param('uid') uid: string,
     @Body('url') url: string,
+    @Request() req: any,
   ): Promise<Cat> {
-    return this.catsService.addLike(uid, url);
+    const userId = req.user.id;
+    return this.catsService.addLike(userId, uid, url);
   }
-  @Delete('like/:uid')
+
+  @Delete('likes/:uid')
   @UseGuards(AuthGuard('jwt'))
-  async removeLike(@Param('uid') uid: string): Promise<void> {
-    return this.catsService.removeLike(uid);
+  async removeLike(
+    @Param('uid') uid: string,
+    @Request() req: any,
+  ): Promise<void> {
+    const userId = req.user.id; 
+    return this.catsService.removeLike(userId, uid);
   }
+
   @Get('likes')
   @UseGuards(AuthGuard('jwt'))
-  async getAllLikes(): Promise<Cat[]> {
-    return this.catsService.getAllLikes();
+  async getAllLikes(@Request() req: any): Promise<Cat[]> {
+    const userId = req.user.id; 
+    return this.catsService.getAllLikes(userId);
   }
 }

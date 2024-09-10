@@ -13,11 +13,11 @@ import { UserResponseDto } from './dto/user-response.dto';
 import * as jwt from 'jsonwebtoken';
 import { LoginUserDto } from './dto/login-user.dto';
 
-@Controller('user')
+@Controller('')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('user')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     try {
